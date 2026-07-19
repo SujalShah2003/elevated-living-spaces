@@ -36,9 +36,9 @@ import ExploreSuites from "./components/ExploreSuites";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Maison Rive — Luxury Rental Living in Hamilton" },
+      { title: "Maison Rive   Luxury Rental Living in Hamilton" },
       { name: "description", content: "Discover Maison Rive: premium Hamilton rentals with geothermal heating, EV charging, and exceptional amenities." },
-      { property: "og:title", content: "Maison Rive — Luxury Rental Living" },
+      { property: "og:title", content: "Maison Rive   Luxury Rental Living" },
       { property: "og:description", content: "Luxury suites, thoughtful design, and a connected Hamilton neighbourhood." },
       
     ],
@@ -120,7 +120,7 @@ const neighborhoodItems = [
 ];
 
 const reviews = [
-  { name: "Ava Martin",    role: "Resident, 2 yrs", stars: 5, quote: "It's the light. Floor-to-ceiling windows, that perfect morning glow — I actually look forward to Mondays now." },
+  { name: "Ava Martin",    role: "Resident, 2 yrs", stars: 5, quote: "It's the light. Floor-to-ceiling windows, that perfect morning glow   I actually look forward to Mondays now." },
   { name: "Daniel Chen",   role: "Resident, 1 yr",  stars: 5, quote: "The concierge team knows my dog by name. Small details, done properly. Feels less like renting and more like belonging." },
   { name: "Priya Kapoor",  role: "Resident, 3 yrs", stars: 5, quote: "I've toured everything from downtown highrises to boutique conversions. Nothing else came close on finish or service." },
 ];
@@ -130,7 +130,7 @@ const faqs = [
   { q: "Do you allow pets?",                        a: "Yes, with no additional pet rent. We have an on-site dog run, washing station, and a resident-run pet social every Sunday." },
   { q: "Can I tour a suite before applying?",       a: "Absolutely. In-person and virtual tours are available seven days a week. Most residents book in under two minutes." },
   { q: "What lease terms do you offer?",            a: "Standard 12-month leases, with 6 and 18-month options subject to availability. Month-to-month renewals after the first term." },
-  { q: "Is parking available?",                     a: "Yes — heated underground parking with EV charging. Stalls are $185/month and reserved on a first-come basis." },
+  { q: "Is parking available?",                     a: "Yes   heated underground parking with EV charging. Stalls are $185/month and reserved on a first-come basis." },
 ];
 
 // ------- Small helpers -------
@@ -191,7 +191,7 @@ function Features() {
               </h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-md">
-              Every detail — from the geothermal HVAC to the smart parcel lockers — was chosen so daily life feels a little more considered.
+              Every detail   from the geothermal HVAC to the smart parcel lockers   was chosen so daily life feels a little more considered.
             </p>
           </div>
         </Reveal>
@@ -236,7 +236,7 @@ function Lifestyle() {
               </Reveal>
               <Reveal delay={0.1}>
                 <div className="max-w-lg">
-                  <span className="text-xs uppercase tracking-[0.2em] text-accent">— {l.tag}</span>
+                  <span className="text-xs uppercase tracking-[0.2em] text-accent">  {l.tag}</span>
                   <h3 className="mt-4 font-display text-4xl lg:text-5xl tracking-tight leading-[1.05] text-balance">{l.title}</h3>
                   <p className="mt-6 text-lg text-muted-foreground leading-relaxed">{l.body}</p>
                   <a href="#contact" className="mt-8 inline-flex items-center gap-2 text-sm font-medium border-b border-foreground/30 pb-1 hover:border-foreground transition-colors">
@@ -262,7 +262,7 @@ function Gallery() {
           <div className="text-center max-w-2xl mx-auto">
             <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Gallery</div>
             <h2 className="mt-3 font-display text-4xl lg:text-6xl tracking-tight">A closer look.</h2>
-            <p className="mt-4 text-muted-foreground">Every angle, every finish — captured in natural light.</p>
+            <p className="mt-4 text-muted-foreground">Every angle, every finish   captured in natural light.</p>
           </div>
         </Reveal>
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 auto-rows-[220px] lg:auto-rows-[260px] gap-4">
@@ -290,7 +290,7 @@ function Neighborhood() {
               The best of the city,<br /><span className="italic text-muted-foreground">a short walk away.</span>
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Green corridors, transit, independent cafés and top-rated schools — all within a few minutes of Maison Rive.
+              Green corridors, transit, independent cafés and top-rated schools   all within a few minutes of Maison Rive.
             </p>
           </div>
         </Reveal>
@@ -420,7 +420,7 @@ function Faq() {
             );
           })}
           {filtered.length === 0 && (
-            <p className="py-10 text-center text-muted-foreground">No matches — try a different search.</p>
+            <p className="py-10 text-center text-muted-foreground">No matches   try a different search.</p>
           )}
         </div>
       </div>

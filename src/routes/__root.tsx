@@ -73,10 +73,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Maison Rive — Luxury Rental Living in Hamilton" },
+      { title: "Maison Rive   Luxury Rental Living in Hamilton" },
       { name: "description", content: "Discover Maison Rive: Beautifully designed luxury suites in Hamilton with geothermal heating, EV charging, and premium amenities. Book your private tour today." },
       { name: "author", content: "Maison Rive" },
-      { property: "og:title", content: "Maison Rive — Luxury Rental Living" },
+      { property: "og:title", content: "Maison Rive   Luxury Rental Living" },
       { property: "og:description", content: "Luxury suites. Premium amenities. Designed around you." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
