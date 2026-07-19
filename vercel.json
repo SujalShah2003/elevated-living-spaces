@@ -7,12 +7,12 @@
       "config": { "distDir": "dist/client" }
     },
     {
-      "src": "server.ts",
+      "src": "src/server.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/server.ts" }
+    { "src": "/(.*)", "dest": "/src/server.ts" }
   ]
 }
