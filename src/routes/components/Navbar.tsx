@@ -39,7 +39,7 @@ export default function Navbar({ onBookTour }: { onBookTour: () => void }) {
             scrolled ? "glass shadow-[0_10px_40px_-20px_rgba(0,0,0,0.15)]" : "bg-transparent",
           )}
         >
-          <a href="#top" className="flex cursor-pointer items-center gap-2 py-2">
+          <a href="/" className="flex cursor-pointer items-center gap-2 py-2">
             <div className="h-8 w-8 rounded-full bg-charcoal flex items-center justify-center">
               <span className="font-display text-primary-foreground text-sm">M</span>
             </div>
