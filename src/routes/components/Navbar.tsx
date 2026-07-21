@@ -22,6 +22,15 @@ export default function Navbar({ onBookTour }: { onBookTour: () => void }) {
     { label: "Contact", href: "#contact" },
   ];
 
+  const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.location.pathname !== "/") return;
+
+    event.preventDefault();
+    window.history.replaceState(window.history.state, "", "/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setOpen(false);
+  };
+
   return (
     <>
       <motion.header
@@ -39,7 +48,11 @@ export default function Navbar({ onBookTour }: { onBookTour: () => void }) {
             scrolled ? "glass shadow-[0_10px_40px_-20px_rgba(0,0,0,0.15)]" : "bg-transparent",
           )}
         >
-          <a href="/" className="flex cursor-pointer items-center gap-2 py-2">
+          <a
+            href="/"
+            onClick={handleLogoClick}
+            className="flex cursor-pointer items-center gap-2 py-2"
+          >
             <div className="h-8 w-8 rounded-full bg-charcoal flex items-center justify-center">
               <span className="font-display text-primary-foreground text-sm">M</span>
             </div>
@@ -65,7 +78,7 @@ export default function Navbar({ onBookTour }: { onBookTour: () => void }) {
             </Button>
             <button
               onClick={() => setOpen(true)}
-              className="lg:hidden cursor-pointer p-2 rounded-full glass"
+              className="lg:hidden inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full glass"
               aria-label="Open menu"
             >
               <Menu className="w-5 h-5" />
@@ -86,7 +99,7 @@ export default function Navbar({ onBookTour }: { onBookTour: () => void }) {
               <span className="font-display text-lg">Menu</span>
               <button
                 onClick={() => setOpen(false)}
-                className="p-2 rounded-full border"
+                className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border"
                 aria-label="Close menu"
               >
                 <X className="w-5 h-5" />
@@ -101,7 +114,7 @@ export default function Navbar({ onBookTour }: { onBookTour: () => void }) {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * i }}
-                  className="font-display text-4xl tracking-tight"
+                  className="flex min-h-12 items-center font-display text-4xl tracking-tight"
                 >
                   {n.label}
                 </motion.a>
