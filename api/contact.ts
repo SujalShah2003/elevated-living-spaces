@@ -1,5 +1,5 @@
-import { contactFormSchema } from "../src/lib/contact-schema";
-import { buildContactEmailHtml, buildContactEmailText } from "./contact-email-template";
+import { contactFormSchema } from "../src/lib/contact-schema.js";
+import { buildContactEmailHtml, buildContactEmailText } from "./contact-email-template.js";
 
 const jsonResponse = (body: unknown, status = 200) =>
   Response.json(body, {
