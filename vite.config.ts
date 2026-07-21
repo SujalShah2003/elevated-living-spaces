@@ -2,13 +2,7 @@ import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import contactHandler from "./api/contact";
-
-type DevApiResponse = {
-  status: (statusCode: number) => DevApiResponse;
-  json: (body: unknown) => void;
-  setHeader: (name: string, value: string) => void;
-};
+import { POST as contactHandler } from "./api/contact";
 
 function contactApiDevPlugin(env: Record<string, string>): Plugin {
   return {
@@ -23,32 +17,24 @@ function contactApiDevPlugin(env: Record<string, string>): Plugin {
         let rawBody = "";
         for await (const chunk of request) rawBody += chunk;
 
-        let body: unknown;
-        try {
-          body = rawBody ? JSON.parse(rawBody) : undefined;
-        } catch {
-          response.statusCode = 400;
-          response.setHeader("Content-Type", "application/json");
-          response.end(JSON.stringify({ message: "Invalid JSON request." }));
+        if (request.method !== "POST") {
+          response.statusCode = 405;
+          response.setHeader("Allow", "POST");
+          response.end();
           return;
         }
 
-        const apiResponse: DevApiResponse = {
-          status(statusCode) {
-            response.statusCode = statusCode;
-            return apiResponse;
-          },
-          setHeader(name, value) {
-            response.setHeader(name, value);
-          },
-          json(payload) {
-            response.setHeader("Content-Type", "application/json; charset=utf-8");
-            response.end(JSON.stringify(payload));
-          },
-        };
-
         try {
-          await contactHandler({ method: request.method, body }, apiResponse);
+          const result = await contactHandler(
+            new Request("http://localhost/api/contact", {
+              method: "POST",
+              headers: { "Content-Type": request.headers["content-type"] ?? "application/json" },
+              body: rawBody,
+            }),
+          );
+          response.statusCode = result.status;
+          result.headers.forEach((value, name) => response.setHeader(name, value));
+          response.end(await result.text());
         } catch (error) {
           console.error("Contact API development error:", error);
           if (!response.headersSent) response.statusCode = 500;

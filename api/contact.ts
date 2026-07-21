@@ -1,12 +1,11 @@
 import { contactFormSchema } from "../src/lib/contact-schema";
 import { buildContactEmailHtml, buildContactEmailText } from "./contact-email-template";
 
-type ApiRequest = { method?: string; body?: unknown };
-type ApiResponse = {
-  status: (statusCode: number) => ApiResponse;
-  json: (body: unknown) => void;
-  setHeader: (name: string, value: string) => void;
-};
+const jsonResponse = (body: unknown, status = 200) =>
+  Response.json(body, {
+    status,
+    headers: { "Cache-Control": "no-store" },
+  });
 
 function getProviderError(status: number, details: string) {
   let providerMessage = "";
@@ -48,24 +47,27 @@ function getProviderError(status: number, details: string) {
   };
 }
 
-export default async function handler(request: ApiRequest, response: ApiResponse) {
-  response.setHeader("Cache-Control", "no-store");
-
-  if (request.method !== "POST") {
-    response.setHeader("Allow", "POST");
-    return response.status(405).json({ message: "Method not allowed." });
+export async function POST(request: Request) {
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonResponse({ message: "Invalid JSON request." }, 400);
   }
 
-  const parsed = contactFormSchema.safeParse(request.body);
+  const parsed = contactFormSchema.safeParse(body);
   if (!parsed.success) {
-    return response.status(400).json({
-      message: "Please check the form and try again.",
-      errors: parsed.error.flatten().fieldErrors,
-    });
+    return jsonResponse(
+      {
+        message: "Please check the form and try again.",
+        errors: parsed.error.flatten().fieldErrors,
+      },
+      400,
+    );
   }
 
   // Silently accept honeypot submissions so bots cannot tune around it.
-  if (parsed.data.company) return response.status(200).json({ ok: true });
+  if (parsed.data.company) return jsonResponse({ ok: true });
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL ?? "hello@maisonrive.ca";
@@ -73,7 +75,7 @@ export default async function handler(request: ApiRequest, response: ApiResponse
 
   if (!apiKey) {
     console.error("RESEND_API_KEY is not configured.");
-    return response.status(503).json({ message: "Email service is not configured yet." });
+    return jsonResponse({ message: "Email service is not configured yet." }, 503);
   }
 
   const { name, email, date, message } = parsed.data;
@@ -98,15 +100,15 @@ export default async function handler(request: ApiRequest, response: ApiResponse
     if (!resendResponse.ok) {
       const details = await resendResponse.text();
       console.error(`Resend error (${resendResponse.status}): ${details}`);
-      const providerError = getProviderError(resendResponse.status, details);
-      return response.status(502).json(providerError);
+      return jsonResponse(getProviderError(resendResponse.status, details), 502);
     }
   } catch (error) {
     console.error("Unable to reach Resend:", error);
-    return response
-      .status(502)
-      .json({ message: "We could not send your request. Please try again." });
+    return jsonResponse(
+      { code: "RESEND_UNREACHABLE", message: "We could not reach the email service." },
+      502,
+    );
   }
 
-  return response.status(200).json({ ok: true });
+  return jsonResponse({ ok: true });
 }
